@@ -1,0 +1,20 @@
+from sklearn.feature_extraction.text import TfidfTransformer
+tfidf_transformer = TfidfTransformer()
+X_tfidf = tfidf_transformer.fit_transform(X)
+
+#MODEL TRAINING
+from sklearn.model_selection import train_test_split
+y = messages["label"].map({"ham": 0, "spam": 1})  # Encoding labels
+X_train, X_test, y_train, y_test = train_test_split(X_tfidf, y, test_size=0.2, random_state=42)
+
+#MODEL SELECTION
+from xgboost import XGBClassifier
+model = XGBClassifier()
+model.fit(X_train, y_train)
+
+#MODEL EVALUATION
+from sklearn.metrics import classification_report, confusion_matrix
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
+
