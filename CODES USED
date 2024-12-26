@@ -1,0 +1,13 @@
+import string
+from nltk.corpus import stopwords
+
+def text_preprocess(message):
+    nopunc = [char for char in message if char not in string.punctuation]
+    nopunc = "".join(nopunc).lower()
+    nostop = [word for word in nopunc.split() if word not in stopwords.words("english")]
+    return " ".join(nostop)
+
+messages["cleaned"] = messages["message"].apply(text_preprocess)
+
+
+
